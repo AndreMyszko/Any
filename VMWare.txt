@@ -1,9 +1,7 @@
 WinSrvBaseConfig:
------------
+------------------
 
--Install VMware Tools before start.
-
-Commands:
+*-Install VMware Tools before start;
 
 setup64 /s /v /qn (restart)
 
@@ -11,6 +9,94 @@ cd Windows/System32/Sysprep
 
 sysprep.exe
 
--select "generalize"
--select the option shutdown"
+*-select "generalize"
+
+*-select the option shutdown"
+
+
+
+
+WinSrvAD (ActiveDirectory):
+----------------------------
+
+*-Clone WinSrvBase VirtualMachine;
+
+*-Use Virtual Network Editor (to view your IP info);
+
+*- VMWare Getway is always xxx.xxx.xxx.2
+
+sconfig.cmd
+ -NetworkSettings(8)
+   -Select Network Adapter(Default is (1))
+     -Set Network Adpter (1)
+       
+s
+*(to static)
+
+*-Set an IP based in your Network capabilities;
+   Enter static IP: 192.xxx.xxx.10
+   Subnet mask : 255.255.255.0
+   DNS: 192.xxx.xxx.2
+   *(for example); 
+
+*-SetDNSserver
+
+Set DNS Server (2)
+127.0.0.1 
+*(DNS as itself)
+
+Back to Menu (4)
+
+Computer Name (2)
+*-ChangeComputerName
+
+Exit to command line (15)
+
+tzutil /l
+
+powershell 
+
+set-timezone -name "E. South America Standard Time" 
+*(for example)
+
+sconfig.cmd
+
+Restart Server (13)
+
+powershell
+
+Install-WindowsFeature -Name Ad-Domain-Services -IncludeManagementTools
+
+Install-ADDSForest -DomainName "*DOMAINNAME.LOCAL"
+
+*-create SafeModePassword (do not lose it)
+
+Y
+*(yes to restart the virtual machine with changes)
+
+*wait for a bit..
+
+*enter with password
+
+sconfig.cmd
+
+shutdown server (14)
+
+*reduce the virtual machine memory to 512 MB in VMWare.
+
+*DONE
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
 
