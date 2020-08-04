@@ -1,0 +1,18 @@
+Git:
+----
+
+BasicStartLocalRepository:
+--------------------------
+
+git init
+
+git add --all
+
+git commit -m "commitName"
+
+git remote add origin https://github.com/*USER*/*REPOSITORY*.git
+
+git push -u origin master
+
+BasicCommitToGitRepository:
+---------------------------
