@@ -1,0 +1,16 @@
+WinSrvBaseConfig:
+-----------
+
+-Install VMware Tools before start.
+
+Commands:
+
+setup64 /s /v /qn (restart)
+
+cd Windows/System32/Sysprep
+
+sysprep.exe
+
+-select "generalize"
+-select the option shutdown"
+
