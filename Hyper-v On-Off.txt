@@ -1,0 +1,14 @@
+PS: admin cmd
+-------------
+
+bcdedit
+(view hyper-v settings)
+
+bcdedit /set hypervisorlaunchtype off 
+(turn off)
+
+bcdedit /set hypervisorlaunchtype auto
+(turn on)
+
+shutdown -f -r
+(restar windows)
