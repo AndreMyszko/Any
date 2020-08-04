@@ -23,3 +23,7 @@ git add --all
 git commit -m "commitName"
 
 git push -u origin master
+
+BasicCloneRepository:
+---------------------
+git clone https://github.com/*USER*/*REPOSITORY*.git
