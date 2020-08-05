@@ -16,7 +16,7 @@ sysprep.exe
 
 
 
-WinSrvAD (ActiveDirectory):
+WinSrv-AD (ActiveDirectory):
 ----------------------------
 
 *-Clone WinSrvBase VirtualMachine;
@@ -84,7 +84,116 @@ shutdown server (14)
 
 *reduce the virtual machine memory to 512 MB in VMWare.
 
-*DONE
+
+
+WinSrv-SQL (ActiveDirectory):
+-----------------------------
+
+*-Clone WinSrvBase VirtualMachine;
+*-Create password...
+
+sconfig.cmd
+
+Change Computer Name (2)
+*-*RESTART VIRTUAL MACHINE*
+
+Network Settings (8)
+  -NewtworkAddapters(1)
+    -NetworkAdapter (default is (1))
+
+s
+*(static)
+
+*-Set an IP based in your Network capabilities;
+   Enter static IP: 192.xxx.xxx.15
+   Subnet mask : 255.255.255.0
+   DNS: 192.xxx.xxx.2
+   *(for example);
+
+Set DNS server (2)
+*-Must match with AD.
+192.xxx.xxx.10
+
+Return to main menu (4)
+
+Domain WorkGroup (1)
+
+d
+*(domain)
+
+*Enter Domain Name (seted in to active directory in WinSrv-AD/Domain)
+
+*-Insert Authorized User
+Administrator@*DOMAIN
+
+*-Inser Domain Corresponding password WinSrv-AD)
+
+*-Verify server ip from admin(cmd):
+
+*/do not forget to install RSAT in your W10-Ad-SQL-ADMIN
+
+*/Remove W10.iso and insert SQLServer.iso
+
+*/ check:
+
+d:
+
+dir
+
+*/CommandLine to install sqlServer:
+
+D:\>setup.exe /q /ACTION=Install /FEATURES=SQLENGINE /INSTANCENAME=MSSQLSERVER /SQLSVCACCOUNT="WINSRV\*Put your user name*" /SQLSVCPASSWORD="*Put your password*" /SQLSYSADMINACCOUNTS="WINSRV\*Put your Administrator*" /SQLSVCINSTANTFILEINIT="True" /IACCEPTSQLSERVERLICENSETERMS
+
+*/command powersheel (inside sql powershell) -SHIFT+CTRL+ESC
+
+file>runNewTask
+
+sqlps.exe
+
+*/Access to TCP/IP inside sqlps.exe:
+
+$smo = 'Microsoft.SqlServer.Management.Smo.'
+
+$wmi = new-object ($smo + 'Wmi.ManagedComputer')
+
+$uri = "ManagedComputer[@Name ='" + (get-item env:\computername).Value + "']/ServerInstance[@Name='MSSQLSERVER']/ServerProtocol[@Name='Tcp']"
+
+$Tcp = $wmi.GetSmoObject($uri)
+
+$Tcp.IsEnabled = $true
+
+$Tcp.Alter()
+
+$Tcp
+
+*/End of sqlps.exe instructions
+
+*/Open PORT:1443 (normal Administrator cmd)
+
+netsh firewall set portopening protocol = TCP port = 1433 name = SQLPort = ENABLE scope = SUBNET profile = CURRENT
+
+
+
+
+W10-Admin-AD-SQL:
+-----------------
+/*Change PC IPV4
+/*Change PC NAME
+/*Change PC to Domain (doamin name)
+nslookup *SERVERNAME* (normal cmd to check IP info)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  
 
